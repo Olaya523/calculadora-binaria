@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "732306302072",
+    "project_id": "otrave",
+    "storage_bucket": "otrave.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:732306302072:android:950c1a905145d473f1398d",
+        "android_client_info": {
+          "package_name": "com.example.otrave"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "732306302072-ece4k4ba2de5cafjtq7s3j5miilsmquu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqrg9GDijURYr4_div7SBy8Ra188GoT74"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "732306302072-ece4k4ba2de5cafjtq7s3j5miilsmquu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
