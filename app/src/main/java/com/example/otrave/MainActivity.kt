@@ -1,6 +1,7 @@
 package com.example.otrave
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 class MainActivity : AppCompatActivity() {
 
     var texto1: TextView? = null
+
     var boton1: Button? = null
     var boton2: Button? = null
     var boton3: Button? = null
@@ -22,8 +24,8 @@ class MainActivity : AppCompatActivity() {
     var boton12: Button? = null
 
     var operacion = 0
-    var numero1 = 0
-    var numero2 = 0
+    var numero1:Long = 0
+    var numero2:Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         boton5?.setOnClickListener { numPresionado("0") }
         boton6?.setOnClickListener { operacionPresionada(resta) }
         boton7?.setOnClickListener { eliminar() }
-        boton8?.setOnClickListener {  }
+        boton8?.setOnClickListener { operacionPresionada(negativo) }
         boton9?.setOnClickListener { operacionPresionada(multiplicacion) }
         boton10?.setOnClickListener { borrarTodo() }
         boton11?.setOnClickListener { igualar() }
@@ -62,9 +64,9 @@ class MainActivity : AppCompatActivity() {
         texto1?.text = "${texto1?.text}$digito"
 
         if (operacion == noOperacion) {
-            numero1 = texto1?.text.toString().toInt()
+            numero1 = texto1?.text.toString().toLong(2)
         } else {
-            numero2 = texto1?.text.toString().toInt()
+            numero2 = texto1?.text.toString().toLong(2)
         }
     }
 
@@ -80,11 +82,16 @@ class MainActivity : AppCompatActivity() {
             suma -> numero1 + numero2
             resta -> numero1 - numero2
             multiplicacion -> numero1 * numero2
-            division -> numero1 / numero2
+            division -> if (numero2>=1) {
+                numero1 / numero2
+            } else {
+                Log.i("mensaje", "nao pode")
+            }
+            negativo -> numero1*(-1)
             else -> 0
         }
         var numBin = resultado.toString().toInt()
-        texto1?.setText(Integer.toBinaryString(numBin))
+        texto1?.text = Integer.toBinaryString(numBin)
 
     }
 
@@ -92,15 +99,31 @@ class MainActivity : AppCompatActivity() {
         if (operacion == noOperacion) {
             var textoNum = ""
             textoNum = texto1?.text.toString()
-            textoNum = textoNum.substring(0, textoNum.length - 1)
-            numero1 = textoNum.toInt()
-            texto1?.setText(numero1.toString())
+            if (textoNum=="") {
+                numero1 = 0
+                texto1?.setText("")
+            } else if (textoNum.length==1) {
+                numero1 = 0
+                texto1?.setText("")
+            } else {
+                textoNum = textoNum.substring(0, textoNum.length - 1)
+                numero1 = textoNum.toLong()
+                texto1?.setText(numero1.toString())
+            }
         } else {
             var textoNum = ""
             textoNum = texto1?.text.toString()
-            textoNum = textoNum.substring(0, textoNum.length - 1)
-            numero2 = textoNum.toInt()
-            texto1?.setText(numero2.toString())
+            if (textoNum=="") {
+                numero2= 0
+                texto1?.setText("")
+            } else if (textoNum.length==1) {
+                numero2 = 0
+                texto1?.setText("")
+            } else {
+                textoNum = textoNum.substring(0, textoNum.length - 1)
+                numero2 = textoNum.toLong()
+                texto1?.setText(numero2.toString())
+            }
         }
     }
 
@@ -114,18 +137,17 @@ class MainActivity : AppCompatActivity() {
         if (texto1?.text=="") {
             texto1?.text="0"
         }
-        val numero = texto1?.text.toString().toInt()
+        val numero = texto1?.text.toString().toInt(2)
         val numeroRotadoDerecha = numero shr 1
         texto1?.text = ""
         texto1?.text = (Integer.toBinaryString(numeroRotadoDerecha))
-        val numeroChar = numeroRotadoDerecha.toChar()
     }
 
     private fun desplazarIzq() {
         if (texto1?.text=="") {
             texto1?.text="0"
         }
-        val numero = texto1?.text.toString().toInt()
+        val numero = texto1?.text.toString().toInt(2)
         val numeroRotadoIzquierda = numero shl 1
         texto1?.text = ""
         texto1?.text = (Integer.toBinaryString(numeroRotadoIzquierda))
@@ -136,9 +158,23 @@ class MainActivity : AppCompatActivity() {
         val resta = 2
         val multiplicacion = 3
         val division = 4
+        val negativo = 5
         val noOperacion = 0
     }
 
+    private fun negar() {
+        if (operacion == noOperacion) {
+            var negativo = numero1*(-1)
+            var negativoNum = negativo.toInt()
+            texto1?.text = Integer.toBinaryString(negativoNum)
+            numero1 = texto1?.text.toString().toLong(2)
+        } else {
+            var negativo = numero2*(-1)
+            var negativoNum = negativo.toInt()
+            texto1?.text = Integer.toBinaryString(negativoNum)
+            numero2 = texto1?.text.toString().toLong(2)
+        }
 
+    }
 
 }
